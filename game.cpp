@@ -7,10 +7,14 @@ Board::Board(void){
 }
 
 void Board::Render(void){
-    for(int row = 0; row < length; row++){
+
+    for(int row = length; row > 0; row--){
+	std::cout << (char)('0' + row);
         for(int col = 0; col < width; col++){
-            std::cout << ".";
+            std::cout << (((row + col) % 2) ? BSQUARE : WSQUARE);
         }
         std::cout << std::endl;
     }
+
+    std::cout << " ABCDEFGH" << std::endl;
 }

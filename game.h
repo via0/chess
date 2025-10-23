@@ -3,6 +3,9 @@
 
 #include <cstddef>
 
+#define WSQUARE "\u25A1"
+#define BSQUARE "\u25A0"
+
 class Board
 {
   public:
