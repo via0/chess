@@ -60,14 +60,14 @@ Board::Board(void){
         tiles[1][col+1] = Tile(White, Piece(Black, Pawn));
     }
 
-    tiles[7][0] = Tile(White, Piece(Black, Rook));
-    tiles[7][1] = Tile(Black, Piece(Black, Knight));
-    tiles[7][2] = Tile(White, Piece(Black, Bishop));
-    tiles[7][3] = Tile(Black, Piece(Black, Queen));
-    tiles[7][4] = Tile(White, Piece(Black, King));
-    tiles[7][5] = Tile(Black, Piece(Black, Bishop));
-    tiles[7][6] = Tile(White, Piece(Black, Knight));
-    tiles[7][7] = Tile(Black, Piece(Black, Rook));
+    tiles[7][0] = Tile(Black, Piece(White, Rook));
+    tiles[7][1] = Tile(White, Piece(White, Knight));
+    tiles[7][2] = Tile(Black, Piece(White, Bishop));
+    tiles[7][3] = Tile(White, Piece(White, Queen));
+    tiles[7][4] = Tile(Black, Piece(White, King));
+    tiles[7][5] = Tile(White, Piece(White, Bishop));
+    tiles[7][6] = Tile(Black, Piece(White, Knight));
+    tiles[7][7] = Tile(White, Piece(White, Rook));
     for(int col = 0; col < width; col += 2){
         tiles[6][col]   = Tile(White, Piece(White, Pawn));
         tiles[6][col+1] = Tile(Black, Piece(White, Pawn));
