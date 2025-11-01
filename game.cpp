@@ -13,19 +13,24 @@ Piece::Piece(Color inColor, PieceType inType){
 
 void Piece::Render(void){
    switch(type){
-       case King:
-           std::cout << ((color == Black) ? BKING : WKING);
-           break;
-//         case Queen:
-//            break;
-//         case Rook:
-//            break;
-//         case Bishop:
-//            break;
-//         case Knight:
-//            break;
-//         case Pawn:
-//            break;
+         case King:
+            std::cout << ((color == Black) ? BKING : WKING);
+            break;
+         case Queen:
+            std::cout << ((color == Black) ? BQUEEN : WQUEEN);
+            break;
+         case Rook:
+            std::cout << ((color == Black) ? BROOK : WROOK);
+            break;
+         case Bishop:
+            std::cout << ((color == Black) ? BBISHOP : WBISHOP);
+            break;
+         case Knight:
+            std::cout << ((color == Black) ? BKNIGHT : WKNIGHT);
+            break;
+         case Pawn:
+            std::cout << ((color == Black) ? BPAWN : WPAWN);
+            break;
         default:
            std::cout << " ";
            break;
@@ -33,13 +38,39 @@ void Piece::Render(void){
 }
 
 Board::Board(void){
-    length = 8;
-    width = 8;
+    int length = 8;
+    int width = 8;
 
-    for(int row = 0; row < length; row++){
+    for(int row = 2; row < (length - 2); row++){
         for(int col = 0; col < width; col++){
             tiles[row][col] = Tile(((row + col) % 2) ? Black : White);
         }
+    }
+
+    tiles[0][0] = Tile(White, Piece(Black, Rook));
+    tiles[0][1] = Tile(Black, Piece(Black, Knight));
+    tiles[0][2] = Tile(White, Piece(Black, Bishop));
+    tiles[0][3] = Tile(Black, Piece(Black, Queen));
+    tiles[0][4] = Tile(White, Piece(Black, King));
+    tiles[0][5] = Tile(Black, Piece(Black, Bishop));
+    tiles[0][6] = Tile(White, Piece(Black, Knight));
+    tiles[0][7] = Tile(Black, Piece(Black, Rook));
+    for(int col = 0; col < width; col += 2){
+        tiles[1][col]   = Tile(Black, Piece(Black, Pawn));
+        tiles[1][col+1] = Tile(White, Piece(Black, Pawn));
+    }
+
+    tiles[7][0] = Tile(White, Piece(Black, Rook));
+    tiles[7][1] = Tile(Black, Piece(Black, Knight));
+    tiles[7][2] = Tile(White, Piece(Black, Bishop));
+    tiles[7][3] = Tile(Black, Piece(Black, Queen));
+    tiles[7][4] = Tile(White, Piece(Black, King));
+    tiles[7][5] = Tile(Black, Piece(Black, Bishop));
+    tiles[7][6] = Tile(White, Piece(Black, Knight));
+    tiles[7][7] = Tile(Black, Piece(Black, Rook));
+    for(int col = 0; col < width; col += 2){
+        tiles[6][col]   = Tile(White, Piece(White, Pawn));
+        tiles[6][col+1] = Tile(Black, Piece(White, Pawn));
     }
 }
 
@@ -70,11 +101,12 @@ void Board::RenderRow(int row){
             // Switch color tiles here because this is where we actually switch squares
             currentColor = (currentColor == White) ? Black : White;
             for(int tile_x = 0; tile_x < 3; tile_x++){
-                if((tile_x == 1) && (tile_y) == 1)
+                if((tile_x == 1) && (tile_y == 1) && (tiles[row][col].piece.type != None))
                     tiles[row][col].piece.Render();
                 else
                     std::cout << ((tiles[row][col].color == Black) ? BSQUARE : WSQUARE);
             }
+            std::cout << " ";
         }
         std::cout << std::endl;
     }
@@ -87,6 +119,12 @@ Tile::Tile(void){
 
 Tile::Tile(Color inColor){
     color = inColor;
+    piece = Piece(White, None);
+}
+
+Tile::Tile(Color inColor, Piece inPiece){
+    color = inColor;
+    piece = inPiece;
 }
 
 void Tile::Render(void){

@@ -58,6 +58,7 @@ class Tile
     Color color;
     Tile(void);
     Tile(Color inColor);
+    Tile(Color inColor, Piece inPiece);
     void Render(void);
     Piece piece;
 };
@@ -65,8 +66,6 @@ class Tile
 class Board
 {
   public:
-    int length;
-    int width;
     Board(void);
     void Render(void);
     void RenderRow(int row);
