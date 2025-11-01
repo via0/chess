@@ -1,6 +1,37 @@
 #include "game.h"
 #include <iostream>
 
+Piece::Piece(void){
+    color = White;  // arbitrary we'll see if these is a problem lol
+    type = None;
+}
+
+Piece::Piece(Color inColor, PieceType inType){
+    color = inColor;
+    type = inType;
+}
+
+void Piece::Render(void){
+   switch(type){
+       case King:
+           std::cout << ((color == Black) ? BKING : WKING);
+           break;
+//         case Queen:
+//            break;
+//         case Rook:
+//            break;
+//         case Bishop:
+//            break;
+//         case Knight:
+//            break;
+//         case Pawn:
+//            break;
+        default:
+           std::cout << " ";
+           break;
+   }
+}
+
 Board::Board(void){
     length = 8;
     width = 8;
@@ -39,7 +70,10 @@ void Board::RenderRow(int row){
             // Switch color tiles here because this is where we actually switch squares
             currentColor = (currentColor == White) ? Black : White;
             for(int tile_x = 0; tile_x < 3; tile_x++){
-                std::cout << ((tiles[row][col].color == Black) ? BSQUARE : WSQUARE);
+                if((tile_x == 1) && (tile_y) == 1)
+                    tiles[row][col].piece.Render();
+                else
+                    std::cout << ((tiles[row][col].color == Black) ? BSQUARE : WSQUARE);
             }
         }
         std::cout << std::endl;
