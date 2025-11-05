@@ -113,6 +113,25 @@ void Board::RenderRow(int row){
 
 }
 
+bool Board::isTileValid(std::string inTile){
+    // Tiles are in the form "a1", "h8", etc.
+    if(inTile.length() > 2){
+        return false;
+    }
+    
+    // File must be between a and h inclusive
+    if(inTile[0] < 'a' && inTile[0] > 'h'){
+        return false;
+    }
+
+    // Rank must be between 1 and 8 inclusive
+    if(inTile[1] < '1' || inTile[1] > '8'){
+        return false;
+    }
+
+    return true;
+}
+
 Tile::Tile(void){
     color = White;
 }
@@ -130,4 +149,8 @@ Tile::Tile(Color inColor, Piece inPiece){
 void Tile::Render(void){
     
     std::cout << ((color == Black) ? BSQUARE : WSQUARE);
+}
+
+Game::Game(void){
+    board = Board();
 }

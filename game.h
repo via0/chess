@@ -2,6 +2,7 @@
 #define GAME_H_
 
 #include <cstddef>
+#include <string>
 
 #define WSQUARE "\u25A1"
 #define BSQUARE "\u25A0"
@@ -70,6 +71,14 @@ class Board
     void Render(void);
     void RenderRow(int row);
     Tile tiles[8][8];
+    bool isTileValid(std::string inTile);
+};
+
+class Game
+{
+    public:
+        Game(void);
+        Board board;
 };
 
 #endif // GAME_H_
