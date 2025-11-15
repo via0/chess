@@ -132,6 +132,28 @@ bool Board::isTileValid(std::string inTile){
     return true;
 }
 
+
+// assume all inputs have been validated by this point - we are simply replacing the piece
+// in endingLocation with the piece in startingLocation
+void Board::executeMove(std::string startingTile, std::string endingTile){
+    // Convert algebraic coordinates to pointer to actual Tile object
+    struct Cartesian startCart = algebraicToCartesian(startingTile);
+    struct Cartesian endCart = algebraicToCartesian(endingTile);
+
+    tiles[endCart.row][endCart.col].piece = tiles[startCart.row][startCart.col].piece;
+    tiles[startCart.row][startCart.col].piece = Piece(White, None);
+}
+
+// Convert algebraic notation (a1, h8, etc.) to Cartesian row, col (0 indexed with origin at top left)
+// We are assuming inputs are valid LUL
+struct Cartesian Board::algebraicToCartesian(std::string algebraicTile){
+    struct Cartesian cart;
+    cart.row = ((algebraicTile[1] - '0') * -1) + 8;
+    cart.col = (algebraicTile[0] - 'a');
+
+    return cart;
+}
+
 Tile::Tile(void){
     color = White;
 }

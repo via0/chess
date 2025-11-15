@@ -34,6 +34,12 @@ typedef enum
     None = 6
 } PieceType;
 
+struct Cartesian
+{
+    int row;
+    int col;
+};
+
 // Piece class attributes...
 // needs a color, maybe list of moves?
 // also make sure to do that funny trick where you have to define the function in the child class
@@ -72,6 +78,10 @@ class Board
     void RenderRow(int row);
     Tile tiles[8][8];
     bool isTileValid(std::string inTile);
+    void executeMove(std::string startingTile, std::string endingTile);
+
+  private:
+    struct Cartesian algebraicToCartesian(std::string algebraicTile);
 };
 
 class Game

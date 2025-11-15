@@ -3,8 +3,6 @@
 
 int main() {
     Game game;
-    game.board.Render();
-    
     bool isGameOver = false;
     // Next step from here: come up with game loop...
     // Prompt user for input for next move
@@ -21,6 +19,8 @@ int main() {
     std::string startingTile;
     std::string endingTile;
     while(!isGameOver){
+        game.board.Render();
+
         do{
             std::cout << "Select a starting tile..." << std::endl;
             std::cin >> startingTile;
@@ -34,6 +34,10 @@ int main() {
         } while(!game.board.isTileValid(endingTile));
 
         std::cout << "Selected ending tile " << endingTile << std::endl;
+
+        // TODO: check if move is legal
+        // if move is legal...
+        game.board.executeMove(startingTile, endingTile);
     }
     return 0;
 }
