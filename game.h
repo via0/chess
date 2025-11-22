@@ -2,6 +2,7 @@
 #define GAME_H_
 
 #include <cstddef>
+#include <vector>
 #include <string>
 
 #define WSQUARE "\u25A1"
@@ -79,9 +80,11 @@ class Board
     Tile tiles[8][8];
     bool isTileValid(std::string inTile);
     void executeMove(std::string startingTile, std::string endingTile);
-
-  private:
     struct Cartesian algebraicToCartesian(std::string algebraicTile);
+
+    // Based on the piece located at the square indicated by startCart, return a vector
+    // of all the squares that piece can legally travel to right now
+    std::vector<struct Cartesian> getAccessibleTiles(struct Cartesian startCart);
 };
 
 class Game
@@ -89,6 +92,9 @@ class Game
     public:
         Game(void);
         Board board;
+        Color whoseTurn;
+        bool isMoveLegal(struct Cartesian startCart, struct Cartesian endCart);
+        bool canTileReachTile(struct Cartesian startCart, struct Cartesian endCart);
 };
 
 #endif // GAME_H_

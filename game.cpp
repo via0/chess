@@ -154,6 +154,40 @@ struct Cartesian Board::algebraicToCartesian(std::string algebraicTile){
     return cart;
 }
 
+// Based on the piece located at the square indicated by startCart, return a vector
+// of all the squares that piece can legally travel to right now
+std::vector<struct Cartesian> Board::getAccessibleTiles(struct Cartesian startCart){
+
+    std::vector<struct Cartesian> accessibleTiles;
+    Piece activePiece = tiles[startCart.row][startCart.col].piece;
+
+    int nextRow; // only relevant for pawns?
+    // Start with an EVIL switch case statement then refactor later (lul)
+    // this whole thing is going to be very messy until we refactor
+    switch(activePiece.type){
+        case King:
+        case Queen:
+        case Rook:
+        case Bishop:
+        case Knight:
+        case Pawn:
+            // TODO: en passant - need to retain move history for this
+            
+            // Able to move forward one square, if it's empty
+            nextRow = (activePiece.color == Black) ? (startCart.row + 1) : (startCart.row - 1);
+            if((nextRow >= 0 && nextRow <= 7) && tiles[nextRow][startCart.col].piece.type == None){
+                accessibleTiles.push_back({nextRow, startCart.col});
+            }
+
+            // Also able to move forward two squares, if currently in home row (2 for white, 7 for black)
+            // Able to capture diagonally, if diagonal spot holds 
+        default:
+            break;
+    }
+
+    return accessibleTiles;
+}
+
 Tile::Tile(void){
     color = White;
 }
@@ -175,4 +209,50 @@ void Tile::Render(void){
 
 Game::Game(void){
     board = Board();
+    whoseTurn = White;
+}
+
+bool Game::isMoveLegal(struct Cartesian startCart, struct Cartesian endCart){
+    // Does the square indicated by startCart contain a piece belonging to the current player?
+    if((board.tiles[startCart.row][startCart.col].piece.type == None) || (board.tiles[startCart.row][startCart.col].piece.color != whoseTurn)){
+        return false;
+    }
+    // Is the square indicated by endCart either a) empty or b) contains a piece belonging to opposing player?
+    if((board.tiles[startCart.row][startCart.col].piece.type != None) && (board.tiles[startCart.row][startCart.col].piece.color == whoseTurn)){
+        return false;
+    }
+    // Is the endCart within range of startCart, given the piece contained on startCart?
+    // Checking two separate questions here:
+    // 1) Is endCart hypothetically within range of startCart for the movement afforded by startCart.piece?
+    // 2) Is there nothing blocking the path? (Ignored for knights, of course)
+    // Which means this can't be a function called by the piece itself
+    // the piece tells you which tiles to scan (e.g. pawns look forward one square, or two if they're on their home rank,
+    // or diagonal forward one if capturing)
+    if(!canTileReachTile(startCart, endCart)){
+        return false;
+    }
+
+    // Would executing this move place the current player's king in check?
+    // Save the piece on endCart for later
+    // Execute the move
+    // Test whether current player's king is in check
+    // If current player's king is in check, reverse the move (using that piece we just saved)
+    
+    return true;
+}
+
+bool Game::canTileReachTile(struct Cartesian startCart, struct Cartesian endCart){
+    // Get the piece located at startCart
+    Piece startPiece = board.tiles[startCart.row][startCart.col].piece;
+    // Start searching through all the tiles it can access
+    // Just create a vector of all the Cartesians bro
+    std::vector<struct Cartesian> accessibleTiles = board.getAccessibleTiles(startCart);
+
+
+    // If endCart ever matches one of the searched tiles, return true
+    // Otherwise, return false
+    // Alternative approach that might be fun: during beginning of turn, for each piece,
+    // create hash set of pieces it can access. That would make memory go crazy but fast search tho
+
+    return false;
 }

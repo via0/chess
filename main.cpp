@@ -18,24 +18,32 @@ int main() {
 
     std::string startingTile;
     std::string endingTile;
+    struct Cartesian startCart;
+    struct Cartesian endCart;
     while(!isGameOver){
         game.board.Render();
 
+        // Check if any moves are available HERE
+
         do{
-            std::cout << "Select a starting tile..." << std::endl;
-            std::cin >> startingTile;
-        } while(!game.board.isTileValid(startingTile));
+            do{
+                std::cout << "Select a starting tile..." << std::endl;
+                std::cin >> startingTile;
+            } while(!game.board.isTileValid(startingTile));
+    
+            std::cout << "Selected starting tile " << startingTile << std::endl;
+            
+            do{
+                std::cout << "Select an ending tile..." << std::endl;
+                std::cin >> endingTile;
+            } while(!game.board.isTileValid(endingTile));
+    
+            std::cout << "Selected ending tile " << endingTile << std::endl;
 
-        std::cout << "Selected starting tile " << startingTile << std::endl;
-        
-        do{
-            std::cout << "Select an ending tile..." << std::endl;
-            std::cin >> endingTile;
-        } while(!game.board.isTileValid(endingTile));
+            startCart = game.board.algebraicToCartesian(startingTile);
+            endCart = game.board.algebraicToCartesian(endingTile);
+        } while(!game.isMoveLegal(startCart, endCart));
 
-        std::cout << "Selected ending tile " << endingTile << std::endl;
-
-        // TODO: check if move is legal
         // if move is legal...
         game.board.executeMove(startingTile, endingTile);
     }
